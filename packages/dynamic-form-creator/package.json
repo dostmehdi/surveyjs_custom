@@ -1,0 +1,53 @@
+{
+  "name": "dynamic-form-creator",
+  "componentName": "DynamicFormCreator",
+  "description": "Dynamicaly generate any forms",
+  "version": "1.0.0",
+  "license": "ISC",
+  "type": "module",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "module": "dist/esm/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    "./*.css": "./*.css",
+    ".": {
+      "require": {
+        "types": "./dist/typings/index.d.ts",
+        "development": "./dist/cjs/index.js",
+        "default": "./dist/cjs/index.min.js"
+      },
+      "import": {
+        "types": "./dist/typings/index.d.ts",
+        "development": "./dist/esm/index.mjs",
+        "default": "./dist/esm/index.min.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commons-utilities": "file:../commons-utilities",
+    "dynamic-form-shared": "1.0.0"
+  },
+  "peerDependencies": {
+    "dynamic-form-shared": "1.0.0",
+    "survey-core": "2.5.30",
+    "survey-creator-core": "2.5.30"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/node": "^20.0.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.37.0",
+    "typescript": "^5.0.0"
+  }
+}

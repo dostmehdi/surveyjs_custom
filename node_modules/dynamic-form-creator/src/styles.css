@@ -1,0 +1,9 @@
+/* Custom styles for the creator */
+.sv-creator {
+    height: 100vh;
+    width: 100%;
+}
+
+.sv-creator .svc-tab-designer {
+    height: calc(100vh - 60px);
+}
