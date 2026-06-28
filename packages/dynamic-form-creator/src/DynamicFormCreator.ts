@@ -23,6 +23,9 @@ import questionInputTypes from "../../dynamic-form-shared/data/toolbox/questionI
 import "survey-core/survey-core.fontless.min.css";
 import "survey-creator-core/survey-creator-core.fontless.min.css";
 import "./styles.css";
+import { registerSurveyJsCustomQuestions } from "./surveyjsCustomQuestions";
+// Import the expression creator component (side-effect: registers the custom question and toolbox item)
+import "./expression.tsx";
 
 export class DynamicFormCreator {
     public static readonly componentName: string = "DynamicFormCreator";
@@ -55,6 +58,13 @@ export class DynamicFormCreator {
         this.bindEvents();
         this.manageToolbox();
 
+        // Ensure the custom expression toolbox item is present after toolbox management
+        try {
+            this.ensureExpressionToolboxItem();
+        } catch (e) {
+            this._logger.error(e);
+        }
+
         this._logger.endMethod(methodName);
     }
 
@@ -77,6 +87,13 @@ export class DynamicFormCreator {
         this._creator = new SurveyCreator(defaultCreatorOptions);
         this._creator.isRTL = true;
         this._creator.activeTab = "designer";
+
+        // Register SurveyJS custom questions (advanced calculator + dynamic list controls)
+        try {
+            registerSurveyJsCustomQuestions(this);
+        } catch (e) {
+            this._logger.error(e);
+        }
         this._creator.startEditTitleOnQuestionAdded = true;
         this._creator.allowChangeThemeInPreview = true;
         this._creator.previewAllowSelectLanguage = true;
@@ -121,7 +138,6 @@ export class DynamicFormCreator {
             questionInputTypes.ratingScale.type,
             questionInputTypes.fileUpload.type,
             questionInputTypes.html.type,
-            questionInputTypes.expression.type,
             questionInputTypes.image.type,
             questionInputTypes.signature.type
         ];
@@ -152,6 +168,26 @@ export class DynamicFormCreator {
         });
 
         this._logger.endMethod(methodName);
+    }
+
+    /**
+     * Ensure the custom `expression` toolbox item is present.
+     * Called after manageToolbox to re-add the item if something removed it.
+     */
+    private ensureExpressionToolboxItem(): void {
+        const toolbox = this._creator.toolbox;
+        if (!toolbox) return;
+
+        const exists = toolbox.getItemByName?.("expression");
+        if (!exists) {
+            toolbox.addItem({
+                name: "expression",
+                title: "Expression",
+                iconName: "icon-calculator",
+                category: "Custom",
+                json: { type: "expression", name: "expression", title: "Expression" }
+            });
+        }
     }
 
     private async GetAsync(url: string): Promise<object> {

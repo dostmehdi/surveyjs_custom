@@ -9,20 +9,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "commons-utilities": "file:../commons-utilities",
+    "dynamic-form-creator": "file:../dynamic-form-creator",
+    "dynamic-form-shared": "file:../dynamic-form-shared",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "survey-core": "2.5.30",
     "survey-creator-core": "2.5.30",
     "survey-creator-js": "2.5.30",
-    "survey-js-ui": "2.5.30",
-    "dynamic-form-creator": "file:../dynamic-form-creator",
-    "dynamic-form-shared": "file:../dynamic-form-shared",
-    "commons-utilities": "file:../commons-utilities"
+    "survey-creator-react": "^2.5.30",
+    "survey-js-ui": "2.5.30"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.0.8"
-  }
+  },
+  "bundleDependencies": [
+    "survey-creator-react"
+  ]
 }
