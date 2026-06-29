@@ -1,1 +1,36 @@
-export default {};
+const creatorOptions = {
+    pageEditMode: "single",
+    previewDevice: "desktop",
+    previewOrientation: "landscape",
+    propertyGridNavigationMode: "buttons",
+    readOnly: false,
+    isRTL: false,
+    autoSaveEnabled: true,
+    collapseOnDrag: true,
+    addNewQuestionLast: true,
+    generateValidJSON: true,
+    previewAllowHiddenElements: true,
+    previewAllowSelectLanguage: true,
+    previewAllowSelectPage: true,
+    previewAllowSelectTheme: true,
+    previewAllowSimulateDevices: true,
+    showCreatorThemeSettings: true,
+    showHeaderInEmptySurvey: true,
+    showErrorOnFailedSave: true,
+    showDesignerTab: true,
+    showJSONEditorTab: true,
+    showLogicTab: true,
+    showPreviewTab: true,
+    showThemeTab: true,
+    showTranslationTab: true,
+    showDefaultLanguageInPreviewTab: true,
+    showDefaultLanguageInTestSurveyTab: true,
+    showSurveyHeader: true,
+    showSurveyTitle: true,
+    useElementTitles: true,
+    allowDragPages: true,
+    allowModifyPages: true,
+    allowZoom: false
+};
+
+export default creatorOptions; 

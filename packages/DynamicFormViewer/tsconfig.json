@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "../../common/declaration/styles.d.ts",
+    "./src/*.ts"
+  ],
+  "exclude": [
+    "_*.js"
+  ],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "disk",
+    "mapRoot": "dist",
+    "declarationDir": "dist/typings"
+  },
+  "typeAcquisition": {
+    "enable": true,
+    "include": [
+      "commons-utilities",
+      "dynamic-form-shared",
+      "survey-core",
+      "survey-js-ui"
+    ]
+  }
+}

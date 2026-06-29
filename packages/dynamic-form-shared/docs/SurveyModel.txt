@@ -1,0 +1,14 @@
+﻿init-json: https://surveyjs.io/form-library/documentation/api-reference/survey-data-model
+	*checkErrorsMode: onNextPage | onValueChanged | onComplete
+	*clearInvisibleValues: none | onComplete | onHidden | onHiddenContainer
+
+events:
+	*onValidateQuestion:
+		sender: SurveyModel
+		options.question: Question
+		options.value: any
+		options.name: string
+		options.error: string
+		options.errors: SurveyError[]
+
+	*

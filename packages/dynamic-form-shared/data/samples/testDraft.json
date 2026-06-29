@@ -1,0 +1,131 @@
+﻿{
+  "cookieName": "test-draft-viewer",
+  "widthMode": "responsive",
+  "width": "100%",
+  "requiredMark": "*",
+  "gridLayoutEnabled": true,
+  "headerView": "advanced",
+  "checkErrorsMode": "onValueChanged",
+  "textUpdateMode": "onTyping",
+  "backgroundOpacity": 1,
+  "showProgressBar": true,
+  "progressBarLocation": "aboveheader",
+  "questionsOnPageMode": "singlePage",
+  "showPreviewBeforeComplete": true,
+  "progressBarShowPageNumbers": false,
+  "firstPageIsStartPage": true,
+  "allowResizeComment": true,
+  "autoGrowComment": true,
+  "autoAdvanceEnabled": false,
+  "autoAdvanceAllowComplete": false,
+  "autoFocusFirstError": true,
+  "autoFocusFirstQuestion": true,
+  "clearInvisibleValues": "onComplete",
+  "showNavigationButtons": true,
+  "navigationButtonsLocation": "bottom",
+  "showQuestionNumbers": "off",
+  "navigateToUrl": "/cartable",
+  "questionTitleLocation": "left",
+  "questionDescriptionLocation": "underInput",
+  "questionErrorLocation": "bottom",
+  "title": {
+    "default": "Test",
+    "fa": "آزمایش"
+  },
+  "description": {
+    "default": "",
+    "fa": ""
+  },
+  "startSurveyText": {
+    "default": "Start Test",
+    "fa": "شروع آزمایش"
+  },
+  "completeText": {
+    "default": "Final registration",
+    "fa": "ثبت نهایی"
+  },
+  "previewText": {
+    "default": "Temporary registration",
+    "fa": "ثبت موقت"
+  },
+  "editText": {
+    "default": "Edit",
+    "fa": "ویرایش"
+  },
+  "completedHtml": {
+    "default": "Test Result Submit Succesfully",
+    "fa": "اطلاعات آزمایش با موفقیت ثبت شد"
+  },
+  "completedHtmlOnCondition": [ ],
+  "elements": [
+    {
+      "type": "text",
+      "name": "FirstName",
+      "title": {
+        "default": "First name:",
+        "fa": "نام:"
+      },
+      "placeholder": {
+        "default": "Enter your first name",
+        "fa": "نام خود را وارد کنید"
+      },
+      "isRequired": true,
+      "requiredErrorText": {
+        "default": "First name cannot be empty",
+        "fa": "وارد کردن نام اجباری است"
+      }
+    },
+    {
+      "type": "text",
+      "name": "LastName",
+      "title": {
+        "default": "Last name:",
+        "fa": "نام خانوادگی:"
+      },
+      "placeholder": {
+        "default": "Enter your last name",
+        "fa": "نام خانوادگی را وارد کنید"
+      }
+    },
+    {
+      "type": "text",
+      "name": "PhoneNumber",
+      "title": {
+        "default": "Phone number:",
+        "fa": "شماره تلفن:"
+      },
+      "placeholder": {
+        "default": "Enter your phone number",
+        "fa": "شماره تلفن را وارد کنید"
+      },
+      "validators": [
+        {
+          "type": "numeric",
+          "text": "Value must be a number"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "GenderType",
+      "title": "Enter your gender(M,F):"
+    },
+    {
+      "type": "text",
+      "name": "country",
+      "title": "Country:"
+    },
+    {
+      "type": "comment",
+      "name": "memo",
+      "title": "Comment:",
+      "validators": [
+        {
+          "type": "expression",
+          "text": "Your answer must contain the word 'survey'",
+          "expression": "validateComment({memo}) >= 0"
+        }
+      ]
+    }
+  ]
+}

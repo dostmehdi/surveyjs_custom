@@ -1,0 +1,106 @@
+{
+  "compileOnSave": false,
+  "include": [
+    "./scripts/common/declaration/styles.d.ts"
+  ],
+  "exclude": [
+    ".vscode",
+    "bin",
+    "obj",
+    "node_modules",
+    "tests",
+    "dist",
+    "**/*.spec.ts",
+    "**/*.json",
+    "**/_*.js"
+  ],
+  "buildOptions": {
+    "verbose": true,
+    "traceResolution": true
+  },
+  "compilerOptions": {
+    // For resolve imports path
+    "baseUrl": ".",
+    //"lib": [ "DOM", "ES2020" ],
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "target": "es2020",
+    "module": "esnext",
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    // Better option for allowSyntheticDefaultImports
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "allowJs": false,
+    "checkJs": false,
+    "strict": false,
+    "alwaysStrict": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "diagnostics": true,
+    "explainFiles": false,
+    "listFiles": false,
+    "listEmittedFiles": false,
+    "noEmit": false,
+    "noEmitHelpers": false,
+    "noEmitOnError": true,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitOverride": false,
+    "noUncheckedSideEffectImports": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "disableSizeLimit": false,
+    "allowArbitraryExtensions": true,
+    "disableSolutionSearching": false,
+    "disableReferencedProjectLoad": false,
+    // only using builded refrence in outDir,
+    // Refrences not build on package building
+    "disableSourceOfProjectReferenceRedirect": false,
+    // Remove internal code from declaration file
+    // Tag: /** @internal */
+    "stripInternal": true,
+    "isolatedModules": true,
+    "isolatedDeclarations": true,
+    "plugins": [
+      {
+        "name": "typescript-eslint-language-service"
+      },
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.module\\.css$"
+        }
+      }
+    ],
+    "paths": {
+      "node_modules/*": [
+        "./node_modules/*"
+      ],
+      "dynamic-form-shared/data/*": [
+        "./scripts/packages/dynamic-form-shared/data/*"
+      ]
+    }
+  },
+  "ts-node": {
+    "esm": true,
+    "files": false,
+    "swc": false,
+    "logError": true
+  }
+}

@@ -25,11 +25,6 @@
       }
     }
   },
-  "scripts": {
-    "build": "tsc && rollup -c",
-    "dev": "tsc --watch",
-    "prepublishOnly": "npm run build"
-  },
   "dependencies": {
     "commons-utilities": "file:../commons-utilities",
     "dynamic-form-shared": "1.0.0"
@@ -49,5 +44,15 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.37.0",
     "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "clean": "tsx ../common/helpers/package-helper.js clean",
+    "check": "tsx ../common/helpers/package-helper.js check",
+    "lint": "tsx ../common/helpers/package-helper.js lint",
+    "build": "tsx ../common/helpers/package-helper.js clean,check,build",
+    "publish": "tsx ../common/helpers/package-helper.js clean,check,lint,build,publish",
+    "build:types": "tsx ../common/helpers/package-helper.js declaration",
+    "build:js": "tsx ../common/helpers/package-helper.js build",
+    "publish:component": "tsx ../common/helpers/package-helper.js publish"
   }
 }

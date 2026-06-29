@@ -1,31 +1,31 @@
-import { Logger } from "commons-utilities/services";
-import { ITheme, settings, Serializer } from "survey-core";
-import { 
-    SurveyCreatorModel, 
-    ICreatorTheme, 
-    registerCreatorTheme, 
-    registerSurveyTheme 
+import {Logger} from "commons-utilities/services";
+import {ComponentCollection, ITheme, settings, Serializer, Model} from "survey-core";
+import {
+    SurveyCreatorModel,
+    ICreatorTheme,
+    registerCreatorTheme,
+    registerSurveyTheme
 } from "survey-creator-core";
-import { SurveyCreator, renderSurveyCreator } from "survey-creator-js";
-import { DynamicFormType } from "../../dynamic-form-shared/types";
+import {SurveyCreator, renderSurveyCreator} from "survey-creator-js";
+import {DynamicFormType} from "../../dynamic-form-shared/types";
 import "../../dynamic-form-shared/configs/index.ts";
 import "../../dynamic-form-shared/properties/index.ts";
 import "../../dynamic-form-shared/functions/index.ts";
-import { viewerLocalization } from '../../dynamic-form-shared/localization/viewer';
-import { creatorLocalization } from "../../dynamic-form-shared/localization/creator";
-import { ThemeType } from "../../dynamic-form-shared/types/theme-type";
+import {viewerLocalization} from '../../dynamic-form-shared/localization/viewer';
+import {creatorLocalization} from "../../dynamic-form-shared/localization/creator";
+import {ThemeType} from "../../dynamic-form-shared/types/theme-type";
 import viewerCustomThemeFlatLight from "../../dynamic-form-shared/data/theme/viewer/custom-flat-light-panelless.json";
 import viewerCustomThemeFlatDark from "../../dynamic-form-shared/data/theme/viewer/custom-flat-dark-panelless.json";
 import viewerCustomThemePlainLight from "../../dynamic-form-shared/data/theme/viewer/custom-plain-light-panelless.json";
 import viewerCustomThemePlainDark from "../../dynamic-form-shared/data/theme/viewer/custom-plain-dark-panelless.json";
 import defaultCreatorOptions from "../../dynamic-form-shared/data/options/creatorOptions.js";
-import questionInputTypes from "../../dynamic-form-shared/data/toolbox/questionInputTypes.js";
 import "survey-core/survey-core.fontless.min.css";
 import "survey-creator-core/survey-creator-core.fontless.min.css";
 import "./styles.css";
-import { registerSurveyJsCustomQuestions } from "./surveyjsCustomQuestions";
+import {CustomComponents} from "../../dynamic-form-shared/types/expression.tsx";
+
 // Import the expression creator component (side-effect: registers the custom question and toolbox item)
-import "./expression.tsx";
+
 
 export class DynamicFormCreator {
     public static readonly componentName: string = "DynamicFormCreator";
@@ -37,6 +37,7 @@ export class DynamicFormCreator {
     private readonly _formType: DynamicFormType;
     private readonly _dynamicFormId?: bigint = undefined;
     private _creator!: SurveyCreator;
+    private _customComponents!: CustomComponents;
     private _isDisposed: boolean = false;
 
     public get isDisposed(): boolean {
@@ -60,7 +61,7 @@ export class DynamicFormCreator {
 
         // Ensure the custom expression toolbox item is present after toolbox management
         try {
-            this.ensureExpressionToolboxItem();
+            // this.ensureExpressionToolboxItem();
         } catch (e) {
             this._logger.error(e);
         }
@@ -85,15 +86,18 @@ export class DynamicFormCreator {
         creatorLocalization.changeCurrentLocale("fa");
 
         this._creator = new SurveyCreator(defaultCreatorOptions);
+        // this._creator.survey = new Model("{}");
+
+        this._customComponents = new CustomComponents(this._dotnetReference, ComponentCollection.Instance);
+        this._customComponents.creator = this._creator;
+        
+        this._customComponents.InitFormulaQuestion();
+
         this._creator.isRTL = true;
         this._creator.activeTab = "designer";
 
         // Register SurveyJS custom questions (advanced calculator + dynamic list controls)
-        try {
-            registerSurveyJsCustomQuestions(this);
-        } catch (e) {
-            this._logger.error(e);
-        }
+
         this._creator.startEditTitleOnQuestionAdded = true;
         this._creator.allowChangeThemeInPreview = true;
         this._creator.previewAllowSelectLanguage = true;
@@ -105,6 +109,7 @@ export class DynamicFormCreator {
         this.changeViewerThemeByJson(viewerCustomThemePlainLight as ITheme);
 
         this._logger.endMethod(methodName);
+
     }
 
     private bindEvents(): void {
@@ -124,6 +129,38 @@ export class DynamicFormCreator {
         });
 
         this._logger.endMethod(methodName);
+
+
+        // this._creator.survey.onValueChanged.add(this._customComponents.CalculateExpression);
+        this._creator.survey.onValueChanged.add((sender: any, options: any) => {
+            try {
+                alert('1122ww');
+                console.log(`The question "${options.name}" changed to:`, options.value);
+                // You can perform any logic here based on the changed question
+
+                let question = options.question;
+
+                console.log(`question PropertyValue: "${question.getPropertyValue()}" `);
+            } catch (err) {
+                console.log(err);
+
+            }
+
+        });
+        this._creator.survey.onPropertyChanged.add(this._customComponents.CalculateExpression);
+        // this._creator.survey.onUIStateChanged.add(this._customComponents.CalculateExpression);
+
+        this._creator.onQuestionAdded.add((_, options) => {
+            if (options.reason === "ELEMENT_CONVERTED")
+                return;
+
+            const q = options.question;
+
+            q.title = "Question " + (Math.floor(Math.random() * 100) + 1);
+
+        });
+
+
     }
 
     private manageToolbox(): void {
@@ -133,39 +170,10 @@ export class DynamicFormCreator {
         const toolbox = this._creator.toolbox;
         toolbox.forceCompact = false;
 
-        // Remove unwanted question types
-        const removeTypes = [
-            questionInputTypes.ratingScale.type,
-            questionInputTypes.fileUpload.type,
-            questionInputTypes.html.type,
-            questionInputTypes.image.type,
-            questionInputTypes.signature.type
-        ];
-        removeTypes.forEach(type => toolbox.removeItem(type));
-
-        // Remove unwanted subtypes
-        const singleTextInputItem = this._creator.toolbox.getItemByName(questionInputTypes.singleLineInput.type);
-        const removeSubtypes = [
-            questionInputTypes.singleLineInput.inputTypes.color,
-            questionInputTypes.singleLineInput.inputTypes.date,
-            questionInputTypes.singleLineInput.inputTypes.dateAndTime,
-            questionInputTypes.singleLineInput.inputTypes.month,
-            questionInputTypes.singleLineInput.inputTypes.phoneNumber,
-            questionInputTypes.singleLineInput.inputTypes.url,
-            questionInputTypes.singleLineInput.inputTypes.week
-        ];
-        removeSubtypes.forEach(subtype => singleTextInputItem.removeSubitem(subtype));
 
         // Set custom choices
         const newDefaultChoices: any[] = [];
-        const choiceTypes = [
-            questionInputTypes.checkboxes.type,
-            questionInputTypes.radioButtonGroup.type,
-            questionInputTypes.dropdown.type
-        ];
-        choiceTypes.forEach(type => {
-            toolbox.getItemByName(type).json.choices = newDefaultChoices;
-        });
+
 
         this._logger.endMethod(methodName);
     }
@@ -178,16 +186,16 @@ export class DynamicFormCreator {
         const toolbox = this._creator.toolbox;
         if (!toolbox) return;
 
-        const exists = toolbox.getItemByName?.("expression");
-        if (!exists) {
-            toolbox.addItem({
-                name: "expression",
-                title: "Expression",
-                iconName: "icon-calculator",
-                category: "Custom",
-                json: { type: "expression", name: "expression", title: "Expression" }
-            });
-        }
+        // const exists = toolbox.getItemByName?.("expression");
+        // if (!exists) {
+        // toolbox.addItem({
+        //     name: "expression",
+        //     title: "Expression",
+        //     iconName: "icon-calculator",
+        //     category: "Custom",
+        //     json: { type: "expression", name: "expression", title: "Expression" }
+        // });
+        // }
     }
 
     private async GetAsync(url: string): Promise<object> {
@@ -195,7 +203,7 @@ export class DynamicFormCreator {
         this._logger.startMethod(methodName);
 
         try {
-            const response = await fetch(url, { method: "GET" });
+            const response = await fetch(url, {method: "GET"});
             if (!response.ok) {
                 throw new Error(`Status: ${response.status}, Error: ${response.statusText}`);
             }
@@ -402,8 +410,8 @@ export class DynamicFormCreator {
 }
 
 export function dynamicFormCreator(
-    dotnetReference: any, 
-    formType: DynamicFormType, 
+    dotnetReference: any,
+    formType: DynamicFormType,
     dynamicFormId?: bigint
 ): DynamicFormCreator {
     return new DynamicFormCreator(dotnetReference, formType, dynamicFormId);

@@ -6,28 +6,40 @@ export class Logger {
     this.prefix = prefix;
   }
 
+  // Safe logging with fallback
+  private log(level: 'debug' | 'error' | 'warn' | 'info', ...args: any[]): void {
+    if (this.isDisposed) return;
+    // Use the global console
+    const method = (console as any)[level] || console.log;
+    try {
+      method(`[${this.prefix}]`, ...args);
+    } catch {
+      // Silently ignore if even console.log fails
+    }
+  }
+
   public startMethod(name: string): void {
-    console.debug(`${this.prefix} - start ${name}`);
+    this.log('debug', `start ${name}`);
   }
 
   public endMethod(name: string): void {
-    console.debug(`${this.prefix} - end ${name}`);
+    this.log('debug', `end ${name}`);
   }
 
   public startSection(name: string): void {
-    console.debug(`${this.prefix} - section ${name}`);
+    this.log('debug', `section ${name}`);
   }
 
   public endSection(name: string): void {
-    console.debug(`${this.prefix} - end section ${name}`);
+    this.log('debug', `end section ${name}`);
   }
 
   public error(err: unknown): void {
-    console.error(`${this.prefix} -`, err);
+    this.log('error', err);
   }
 
   public dispose(): void {
     this.isDisposed = true;
-    console.debug(`${this.prefix} - disposed`);
+    this.log('debug', 'disposed');
   }
 }

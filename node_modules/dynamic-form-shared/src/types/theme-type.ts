@@ -1,4 +1,3 @@
-export enum ThemeType {
-    Light = "Light",
-    Dark = "Dark"
-}
+type ThemeType = 'Light' | 'Dark';
+
+export type { ThemeType };

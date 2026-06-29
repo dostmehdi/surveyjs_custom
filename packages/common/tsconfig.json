@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "./*.ts",
+    "./**/*.ts"
+  ],
+  "exclude": [],
+  "compilerOptions": {
+    "noEmit": true,
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "isolatedDeclarations": false,
+    "allowSyntheticDefaultImports": true
+  }
+}

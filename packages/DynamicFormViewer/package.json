@@ -1,0 +1,58 @@
+{
+  "name": "dynamic-form-viewer",
+  "componentName": "DynamicFormViewer",
+  "description": "View dynamic form created by dynamic form creator",
+  "version": "1.0.0",
+  "license": "ISC",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/typings/index.d.ts",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "peerDependencies": {
+    "survey-core": "2.5.30",
+    "dynamic-form-shared": "1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "survey-core": {
+      "optional": false
+    },
+    "dynamic-form-shared": {
+      "optional": false
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./*.css": "./*.css",
+    ".": {
+      "require": {
+        "default": "./dist/cjs/index.min.js",
+        "development": "./dist/cjs/index.js",
+        "types": "./dist/typings/index.d.ts"
+      },
+      "import": {
+        "default": "./dist/esm/index.min.mjs",
+        "development": "./dist/esm/index.mjs",
+        "types": "./dist/typings/index.d.ts"
+      }
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "tsx ../common/helpers/package-helper.js clean",
+    "check": "tsx ../common/helpers/package-helper.js check",
+    "lint": "tsx ../common/helpers/package-helper.js lint",
+    "build": "tsx ../common/helpers/package-helper.js clean,check,build",
+    "publish": "tsx ../common/helpers/package-helper.js clean,check,lint,build,publish",
+    "build:types": "tsx ../common/helpers/package-helper.js declaration",
+    "build:js": "tsx ../common/helpers/package-helper.js build",
+    "publish:component": "tsx ../common/helpers/package-helper.js publish"
+  }
+}

@@ -1,0 +1,56 @@
+{
+	"logoPosition": "left",
+	"widthMode": "responsive",
+	"width": "100%",
+	"requiredMark": "*",
+	"gridLayoutEnabled": true,
+	"headerView": "advanced",
+	"checkErrorsMode": "onValueChanged",
+	"textUpdateMode": "onTyping",
+	"backgroundOpacity": 1,
+	"showProgressBar": true,
+	"progressBarLocation": "aboveheader",
+	"questionsOnPageMode": "singlePage",
+	"showPreviewBeforeComplete": true,
+	"progressBarShowPageNumbers": false,
+	"firstPageIsStartPage": true,
+	"allowResizeComment": true,
+	"autoGrowComment": true,
+	"autoAdvanceEnabled": false,
+	"autoAdvanceAllowComplete": false,
+	"autoFocusFirstError": true,
+	"autoFocusFirstQuestion": true,
+	"clearDisabledChoices": true,
+	"clearIncorrectValues": true,
+	"validationAllowSwitchPages": false,
+	"clearInvisibleValues": "onComplete",
+	"showNavigationButtons": true,
+	"navigationButtonsLocation": "bottom",
+	"showQuestionNumbers": false,
+	"navigateToUrl": "/calibrations",
+	"questionTitleLocation": "left",
+	"questionDescriptionLocation": "underInput",
+	"questionErrorLocation": "bottom",
+	"startSurveyText": {
+		"default": "Start",
+		"fa": "شروع"
+	},
+	"completeText": {
+		"default": "Final registration",
+		"fa": "ثبت نهایی"
+	},
+	"previewText": {
+		"default": "Temporary registration",
+		"fa": "ثبت موقت"
+	},
+	"editText": {
+		"default": "Edit",
+		"fa": "ویرایش"
+	},
+	"completedHtml": {
+		"default": "Result Submit Succesfully",
+		"fa": "اطلاعات با موفقیت ثبت شد"
+	},
+	"completedHtmlOnCondition": [ ],
+	"elements": [ ]
+}
